@@ -1,0 +1,110 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+:root {
+  /* 基础变量 */
+  --font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-size-base: 14px;
+  --line-height-base: 1.5;
+
+  /* 颜色变量 */
+  --color-primary: #1890ff;
+  --color-success: #52c41a;
+  --color-warning: #faad14;
+  --color-error: #f5222d;
+  
+  /* 背景颜色 */
+  --bg-base: #ffffff;
+  --bg-light: #fafafa;
+  --bg-dark: #141414;
+  
+  /* 文字颜色 */
+  --text-primary: rgba(0, 0, 0, 0.85);
+  --text-secondary: rgba(0, 0, 0, 0.45);
+  --text-disabled: rgba(0, 0, 0, 0.25);
+  
+  /* 边框 */
+  --border-color: #d9d9d9;
+  --border-radius: 2px;
+  
+  /* 过渡动画 */
+  --transition-duration: 0.3s;
+}
+
+/* 暗色主题 */
+.dark {
+  --bg-base: #141414;
+  --bg-light: #1f1f1f;
+  --text-primary: rgba(255, 255, 255, 0.85);
+  --text-secondary: rgba(255, 255, 255, 0.45);
+  --text-disabled: rgba(255, 255, 255, 0.25);
+  --border-color: #434343;
+}
+
+/* 基础样式 */
+html {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  color: var(--text-primary);
+  background-color: var(--bg-base);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* 平台特定样式 */
+@supports (-webkit-touch-callout: none) {
+  /* iOS Safari */
+  .scrollable {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@supports (-moz-appearance: none) {
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--text-secondary) transparent;
+  }
+}
+
+/* Windows/Linux 滚动条样式 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--text-secondary);
+  border-radius: 3px;
+}
+
+/* 动画 */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity var(--transition-duration);
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+html, body, #app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+} 

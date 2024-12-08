@@ -1,0 +1,10 @@
+[package]
+name = "sql-gui-mysql"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+baibai-core = { path = "../../core" }
+async-trait = "0.1"
+mysql_async = "0.31"
+tokio = { version = "1.0", features = ["full"] } 

@@ -1,0 +1,17 @@
+en:
+  database:
+    connection:
+      success: "Connection successful"
+      failed: "Connection failed: %{error}"
+      timeout: "Connection timeout"
+      invalid_config: "Invalid database configuration"
+    list:
+      failed: "Failed to list databases: %{error}"
+      empty: "No databases found"
+    tables:
+      no_database: "No database specified"
+      failed: "Failed to list tables: %{error}"
+      empty: "No tables found in database %{database}"
+    columns:
+      failed: "Failed to get table columns: %{error}"
+      empty: "No columns found in table %{table}"

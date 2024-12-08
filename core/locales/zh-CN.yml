@@ -1,0 +1,17 @@
+zh-CN:
+  database:
+    connection:
+      success: "连接成功"
+      failed: "连接失败：%{error}"
+      timeout: "连接超时"
+      invalid_config: "数据库配置无效"
+    list:
+      failed: "获取数据库列表失败：%{error}"
+      empty: "未找到数据库"
+    tables:
+      no_database: "未指定数据库"
+      failed: "获取表列表失败：%{error}"
+      empty: "数据库 %{database} 中未找到表"
+    columns:
+      failed: "获取表字段失败：%{error}"
+      empty: "表 %{table} 中未找到字段"
