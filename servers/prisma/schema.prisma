@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int         @id @default(autoincrement())
+  email     String      @unique
+  name      String
+  password  String      @map("password_hash")
+  teams     TeamMember[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  @@map("users")
+}
+
+model Team {
+  id          Int         @id @default(autoincrement())
+  name        String
+  description String?
+  members     TeamMember[]
+  connections Connection[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@map("teams")
+}
+
+model TeamMember {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  team      Team     @relation(fields: [teamId], references: [id])
+  teamId    Int
+  role      Role     @default(MEMBER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, teamId])
+  @@map("team_members")
+}
+
+model Connection {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String?
+  type        DbType    @default(MYSQL)
+  host        String
+  port        Int
+  username    String
+  password    String    @map("password_encrypted")
+  database    String?
+  team        Team      @relation(fields: [teamId], references: [id])
+  teamId      Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("connections")
+}
+
+enum Role {
+  ADMIN
+  MEMBER
+}
+
+enum DbType {
+  MYSQL
+  POSTGRESQL
+  SQLITE
+} 

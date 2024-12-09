@@ -1,6 +1,6 @@
 [workspace]
 members = [
-    "src-tauri",
+    "ui/src-tauri",
     "core",
     "crates/mysql-driver",
     "crates/sqlite-driver"
