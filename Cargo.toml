@@ -2,6 +2,5 @@
 members = [
     "ui/src-tauri",
     "core",
-    "crates/mysql-driver",
-    "crates/sqlite-driver"
+    "crates/*"
 ] 

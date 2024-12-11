@@ -1,0 +1,44 @@
+{
+  "name": "mysql",
+  "version": "1.0.0",
+  "displayName": {
+    "en-US": "MySQL Database",
+    "zh-CN": "MySQL 数据库"
+  },
+  "description": {
+    "en-US": "MySQL database plugin with query editor and data viewer",
+    "zh-CN": "MySQL 数据库插件，支持查询编辑器和数据查看器"
+  },
+  "author": "baibai",
+  "homepage": "https://github.com/baibai/mysql-plugin",
+  "icon": "mysql.svg",
+  "capabilities": [
+    "transaction",
+    "prepared_statement",
+    "batch_operation",
+    "stored_procedure"
+  ],
+  "settings": {
+    "maxConnections": {
+      "type": "number",
+      "default": 10,
+      "description": {
+        "en-US": "Maximum number of connections",
+        "zh-CN": "最大连接数"
+      }
+    },
+    "connectionTimeout": {
+      "type": "number",
+      "default": 5000,
+      "description": {
+        "en-US": "Connection timeout in milliseconds",
+        "zh-CN": "连接超时时间(毫秒)"
+      }
+    }
+  },
+  "components": {
+    "editor": "./components/QueryEditor.vue",
+    "viewer": "./components/DataViewer.vue",
+    "settings": "./components/Settings.vue"
+  }
+}

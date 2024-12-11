@@ -11,7 +11,9 @@
     "test": "pnpm -r run test",
     "test:core": "cd core && cargo test --test integration_test -- --nocapture",
     "test:e2e": "pnpm --filter @baibai/e2e test",
-    "test:e2e:ui": "pnpm --filter @baibai/e2e test:ui"
+    "test:e2e:ui": "pnpm --filter @baibai/e2e test:ui",
+    "build:plugin-core": "pnpm --filter @baibai/plugin-core build",
+    "publish:plugin-core": "pnpm --filter @baibai/plugin-core publish"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^6.0.0",

@@ -1,10 +1,13 @@
 [package]
-name = "sql-gui-mysql"
+name = "baibai-mysql-plugin"
 version = "0.1.0"
 edition = "2021"
 
+[lib]
+crate-type = ["cdylib"]
+
 [dependencies]
-baibai-core = { path = "../../core" }
-async-trait = "0.1"
+baibai-plugin = { path = "../common" }
 mysql_async = "0.31"
+async-trait = "0.1"
 tokio = { version = "1.0", features = ["full"] } 

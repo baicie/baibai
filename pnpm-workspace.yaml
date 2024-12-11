@@ -1,4 +1,4 @@
 packages:
-  - 'ui'
-  - 'servers'
-  - 'e2e'
+  - "ui"
+  - "packages/*"
+  - "plugins/**/ui"

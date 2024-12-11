@@ -1,0 +1,146 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Plugin Manifest Schema",
+  "description": "Schema for baibai plugin manifest.json",
+  "type": "object",
+  "required": [
+    "name",
+    "version",
+    "displayName",
+    "description",
+    "author",
+    "capabilities"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Plugin unique identifier",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "version": {
+      "type": "string",
+      "description": "Plugin version following semver",
+      "pattern": "^\\d+\\.\\d+\\.\\d+(?:-[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?(?:\\+[0-9A-Za-z-]+)?$"
+    },
+    "displayName": {
+      "type": "object",
+      "description": "Plugin display name in different locales",
+      "required": ["en-US", "zh-CN"],
+      "properties": {
+        "en-US": { "type": "string" },
+        "zh-CN": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "description": {
+      "type": "object",
+      "description": "Plugin description in different locales",
+      "required": ["en-US", "zh-CN"],
+      "properties": {
+        "en-US": { "type": "string" },
+        "zh-CN": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "author": {
+      "type": "string",
+      "description": "Plugin author name"
+    },
+    "homepage": {
+      "type": "string",
+      "description": "Plugin homepage URL",
+      "format": "uri"
+    },
+    "repository": {
+      "type": "string",
+      "description": "Plugin repository URL",
+      "format": "uri"
+    },
+    "icon": {
+      "type": "string",
+      "description": "Plugin icon path relative to manifest.json"
+    },
+    "capabilities": {
+      "type": "array",
+      "description": "Plugin capabilities",
+      "items": {
+        "type": "string",
+        "enum": [
+          "transaction",
+          "prepared_statement",
+          "batch_operation",
+          "stored_procedure"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "settings": {
+      "type": "object",
+      "description": "Plugin settings configuration",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["type", "default", "description"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["string", "number", "boolean"]
+          },
+          "default": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "number" },
+              { "type": "boolean" }
+            ]
+          },
+          "description": {
+            "type": "object",
+            "required": ["en-US", "zh-CN"],
+            "properties": {
+              "en-US": { "type": "string" },
+              "zh-CN": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    "components": {
+      "type": "object",
+      "description": "Plugin component paths",
+      "properties": {
+        "editor": {
+          "type": "string",
+          "description": "Path to editor component"
+        },
+        "viewer": {
+          "type": "string",
+          "description": "Path to viewer component"
+        },
+        "settings": {
+          "type": "string",
+          "description": "Path to settings component"
+        }
+      },
+      "additionalProperties": false
+    },
+    "dependencies": {
+      "type": "object",
+      "description": "Plugin dependencies",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^\\d+\\.\\d+\\.\\d+(?:-[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?(?:\\+[0-9A-Za-z-]+)?$"
+      }
+    },
+    "engines": {
+      "type": "object",
+      "description": "Required engine versions",
+      "properties": {
+        "baibai": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+(?:-[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?(?:\\+[0-9A-Za-z-]+)?$"
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}
