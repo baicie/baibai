@@ -1,5 +1,5 @@
-import type { Component } from "vue";
-import { Button, Space, Input } from "ant-design-vue";
+import type { ButtonProps, SpaceProps, InputProps } from "antd";
+import type { JSX } from "react";
 
 export enum PluginType {
   Builtin = "builtin",
@@ -21,24 +21,14 @@ export interface PluginMetadata {
   homepage?: string;
   icon?: string;
   capabilities: string[];
-  path?: string; // 外部插件的路径
-  checksum?: string; // 外部插件的校验和
-}
-
-export interface PluginInstallOptions {
-  force?: boolean; // 是否强制安装
-  skipVerification?: boolean; // 是否跳过验证
-}
-
-export interface PluginError extends Error {
-  code: string;
-  details?: any;
+  path?: string;
+  checksum?: string;
 }
 
 export interface UIComponents {
-  Button: typeof Button;
-  Space: typeof Space;
-  Input: typeof Input;
+  Button: React.FC<ButtonProps>;
+  Space: React.FC<SpaceProps>;
+  Input: React.FC<InputProps>;
 }
 
 export interface PluginContext {
@@ -61,9 +51,9 @@ export interface PluginContext {
 }
 
 export interface PluginComponents {
-  editor?: Component;
-  viewer?: Component;
-  settings?: Component;
+  editor?: () => JSX.Element;
+  viewer?: () => JSX.Element;
+  settings?: () => JSX.Element;
 }
 
 export interface Plugin {
@@ -72,4 +62,14 @@ export interface Plugin {
   init: (context: PluginContext) => Promise<void>;
   destroy: () => Promise<void>;
   getComponents: () => PluginComponents;
+}
+
+export interface PluginError extends Error {
+  code: string;
+  details?: any;
+}
+
+export interface PluginInstallOptions {
+  force?: boolean;
+  skipVerification?: boolean;
 }

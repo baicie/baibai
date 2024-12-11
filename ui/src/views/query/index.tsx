@@ -1,50 +1,43 @@
-import { defineComponent, ref } from "vue";
-import { Layout } from "ant-design-vue";
+import React from "react";
+import { Layout } from "antd";
 import SqlEditor from "@/components/SqlEditor";
 import DatabaseTree from "@/components/DatabaseTree";
 import ResultTable from "@/components/ResultTable";
-import { invoke } from "@tauri-apps/api/core";
+import type { QueryResult } from "@baibai/plugin-core";
 
 const { Sider, Content } = Layout;
 
-export default defineComponent({
-  name: "QueryView",
-  setup() {
-    const sql = ref("");
-    const result = ref<any>(null);
-    const loading = ref(false);
+const QueryView: React.FC = () => {
+  const [sql, setSql] = React.useState("");
+  const [result, setResult] = React.useState<QueryResult>();
+  const [loading, setLoading] = React.useState(false);
 
-    const handleExecute = async () => {
-      if (!sql.value.trim()) return;
+  const handleExecute = async (sql: string) => {
+    if (!sql.trim()) return;
+    setLoading(true);
+    try {
+      // TODO: 执行查询
+      // const res = await executeQuery(sql);
+      // setResult(res);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-      loading.value = true;
-      try {
-        result.value = await invoke("execute_sql", { sql: sql.value });
-      } catch (error) {
-        // 处理错误
-      } finally {
-        loading.value = false;
-      }
-    };
+  return (
+    <Layout className="h-full">
+      <Sider width={250} className="bg-white">
+        <DatabaseTree />
+      </Sider>
+      <Content className="p-4">
+        <SqlEditor value={sql} onChange={setSql} onExecute={handleExecute} />
+        <div className="h-4" />
+        <ResultTable loading={loading} result={result} />
+      </Content>
+    </Layout>
+  );
+};
 
-    return () => (
-      <Layout class="h-full flex flex-col">
-        <Content class="flex-1 p-4 flex flex-col">
-          <div class="flex-1 flex flex-col">
-            <SqlEditor
-              v-model:value={sql.value}
-              height="40%"
-              onExecute={handleExecute}
-            />
-            <div class="h-2" />
-            <ResultTable
-              loading={loading.value}
-              result={result.value}
-              height="calc(60% - 8px)"
-            />
-          </div>
-        </Content>
-      </Layout>
-    );
-  },
-});
+export default QueryView;

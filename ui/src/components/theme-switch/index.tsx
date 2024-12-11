@@ -1,27 +1,23 @@
-import { defineComponent } from "vue";
+import React from "react";
+import { Tooltip, Switch } from "antd";
 import { useThemeStore } from "@/stores/theme";
-import { useI18n } from "vue-i18n";
-import { storeToRefs } from "pinia";
+import { useTranslation } from "react-i18next";
 
-export default defineComponent({
-  name: "ThemeSwitch",
-  setup() {
-    const { t } = useI18n();
-    const themeStore = useThemeStore();
-    const { isDark } = storeToRefs(themeStore);
+const ThemeSwitch: React.FC = () => {
+  const { t } = useTranslation();
+  const isDark = useThemeStore((state) => state.isDark);
+  const toggleTheme = useThemeStore((state) => state.toggleTheme);
 
-    return () => (
-      <a-tooltip
-        title={t(`theme.${isDark.value ? "light" : "dark"}`)}
-        placement="bottom"
-      >
-        <a-switch
-          checked={isDark.value}
-          checkedChildren="🌙"
-          unCheckedChildren="☀️"
-          onChange={themeStore.toggleTheme}
-        />
-      </a-tooltip>
-    );
-  },
-});
+  return (
+    <Tooltip title={t(`theme.${isDark ? "light" : "dark"}`)} placement="bottom">
+      <Switch
+        checked={isDark}
+        checkedChildren="🌙"
+        unCheckedChildren="☀️"
+        onChange={toggleTheme}
+      />
+    </Tooltip>
+  );
+};
+
+export default ThemeSwitch;

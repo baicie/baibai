@@ -1,27 +1,29 @@
-import { defineComponent, ref } from "vue";
+import React from "react";
+import { Input } from "antd";
+import MonacoEditor from "react-monaco-editor";
 
-export default defineComponent({
-  name: "QueryEditor",
-  emits: ["execute"],
-  setup(props, { emit }) {
-    const sqlContent = ref("");
+interface Props {
+  value: string;
+  onChange: (value: string) => void;
+  onExecute: () => void;
+}
 
-    const handleExecute = () => {
-      emit("execute", sqlContent.value);
-    };
+const QueryEditor: React.FC<Props> = ({ value, onChange, onExecute }) => {
+  const editorOptions = {
+    minimap: { enabled: false },
+    scrollBeyondLastLine: false,
+    fontSize: 14,
+  };
 
-    return () => (
-      <div class="query-editor">
-        <a-textarea
-          v-model={sqlContent.value}
-          placeholder="请输入 SQL 语句"
-          autoSize={{ minRows: 4, maxRows: 10 }}
-          class="mb-4"
-        />
-        <a-button type="primary" onClick={handleExecute}>
-          执行查询
-        </a-button>
-      </div>
-    );
-  },
-});
+  return (
+    <MonacoEditor
+      value={value}
+      onChange={onChange}
+      language="sql"
+      options={editorOptions}
+      height="200px"
+    />
+  );
+};
+
+export default QueryEditor;

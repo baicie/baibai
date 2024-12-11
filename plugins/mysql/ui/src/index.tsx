@@ -1,11 +1,9 @@
-import { defineComponent, h } from "vue";
-import type { Component } from "vue";
-import { useContextProvider } from "@baibai/plugin-core";
 import type {
   Plugin,
   PluginContext,
   PluginComponents,
 } from "@baibai/plugin-core";
+import { PluginContextProvider } from "@baibai/plugin-core";
 import QueryEditor from "./components/QueryEditor";
 import manifest from "../../manifest.json";
 
@@ -21,21 +19,16 @@ export class MySQLPluginUI implements Plugin {
 
   getComponents(): PluginComponents {
     const context = this.context;
-    const plugin = this;
     if (!context) {
       throw new Error("Plugin not initialized");
     }
 
-    const wrapComponent = (Component: Component) =>
-      defineComponent({
-        setup(props) {
-          useContextProvider(plugin, context);
-          return () => h(Component, props);
-        },
-      });
-
     return {
-      editor: wrapComponent(QueryEditor),
+      editor: () => (
+        <PluginContextProvider value={context}>
+          <QueryEditor />
+        </PluginContextProvider>
+      ),
     };
   }
 

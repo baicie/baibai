@@ -16,11 +16,8 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
-    "jsx": "preserve",
-    "jsxImportSource": "vue",
     "sourceMap": true,
-
-    "verbatimModuleSyntax": true,
-    "types": ["node"]
+    "jsx": "react-jsx",
+    "verbatimModuleSyntax": true
   }
 }

@@ -1,48 +1,69 @@
-import { defineComponent, ref } from "vue";
-import { Table, Button, Space } from "ant-design-vue";
-import {
-  ReloadOutlined,
-  PlusOutlined,
-  DeleteOutlined,
-  SaveOutlined,
-} from "@ant-design/icons-vue";
+import React from "react";
+import { Table, Button, Space } from "antd";
+import type { ColumnsType } from "antd/es/table";
+import { useParams } from "react-router-dom";
+import { useDatabaseStore } from "../../../stores/database";
+import { invoke } from "@tauri-apps/api/core";
+import type { QueryResult } from "@baibai/plugin-core";
 
-export default defineComponent({
-  name: "TableData",
-  setup() {
-    const columns = [
-      {
-        title: "id",
-        dataIndex: "id",
-        key: "id",
-      },
-      {
-        title: "username",
-        dataIndex: "username",
-        key: "username",
-        editable: true,
-      },
-    ];
+const TableData: React.FC = () => {
+  const { database, table } = useParams<{ database: string; table: string }>();
+  const [loading, setLoading] = React.useState(false);
+  const [result, setResult] = React.useState<QueryResult>();
+  const [page, setPage] = React.useState(1);
+  const [pageSize, setPageSize] = React.useState(20);
+  const currentConnection = useDatabaseStore(
+    (state) => state.currentConnection
+  );
 
-    const data = ref([
-      { id: 1, username: "admin" },
-      { id: 2, username: "user" },
-    ]);
+  const loadData = React.useCallback(async () => {
+    if (!currentConnection || !database || !table) return;
 
-    return () => (
-      <div class="table-data">
-        <div class="mb-4">
-          <Space>
-            <Button type="primary" icon={<ReloadOutlined />}>
-              刷新
-            </Button>
-            <Button icon={<PlusOutlined />}>新增</Button>
-            <Button icon={<DeleteOutlined />}>删除</Button>
-            <Button icon={<SaveOutlined />}>保存</Button>
-          </Space>
-        </div>
-        <Table columns={columns} dataSource={data.value} />
-      </div>
-    );
-  },
-});
+    setLoading(true);
+    try {
+      const offset = (page - 1) * pageSize;
+      const sql = `SELECT * FROM ${database}.${table} LIMIT ${pageSize} OFFSET ${offset}`;
+      const result = await invoke<QueryResult>("execute_query", {
+        connectionId: currentConnection.id,
+        sql,
+      });
+      setResult(result);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }, [currentConnection, database, table, page, pageSize]);
+
+  React.useEffect(() => {
+    loadData();
+  }, [loadData]);
+
+  const columns: ColumnsType<any> =
+    result?.columns.map((col) => ({
+      title: col,
+      dataIndex: col,
+      key: col,
+    })) || [];
+
+  return (
+    <Table
+      loading={loading}
+      columns={columns}
+      dataSource={result?.rows}
+      rowKey={(record) => JSON.stringify(record)}
+      size="small"
+      bordered
+      pagination={{
+        current: page,
+        pageSize,
+        onChange: (page, pageSize) => {
+          setPage(page);
+          setPageSize(pageSize);
+        },
+      }}
+    />
+  );
+};
+
+export default TableData;

@@ -1,13 +1,11 @@
 import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
-import vueJsx from "@vitejs/plugin-vue-jsx";
+import react from "@vitejs/plugin-react-swc";
 import { resolve } from "path";
 import dts from "vite-plugin-dts";
 
 export default defineConfig({
   plugins: [
-    vue(),
-    vueJsx(),
+    react(),
     dts({
       entryRoot: "src",
       tsconfigPath: "./tsconfig.app.json",
@@ -23,12 +21,13 @@ export default defineConfig({
       fileName: (format) => `index.${format === "es" ? "mjs" : "cjs"}`,
     },
     rollupOptions: {
-      external: ["vue", "@baibai/plugin-core", "ant-design-vue"],
+      external: ["react", "react-dom", "@baibai/plugin-core", "antd"],
       output: {
         globals: {
-          vue: "Vue",
+          react: "React",
+          "react-dom": "ReactDOM",
           "@baibai/plugin-core": "BaibaiPluginCore",
-          "ant-design-vue": "antd",
+          antd: "antd",
         },
       },
     },
