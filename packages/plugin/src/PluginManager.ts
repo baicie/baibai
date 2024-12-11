@@ -58,8 +58,20 @@ export class PluginManager {
   }
 
   private async loadExternalPlugin(metadata: PluginMetadata): Promise<Plugin> {
-    // 实现外部插件的动态加载逻辑
-    const module = await import(metadata.path!);
-    return new module.default();
+    // 确保路径以 ./ 或 ../ 开头
+    const normalizedPath = metadata.path!.startsWith(".")
+      ? metadata.path!
+      : `./${metadata.path!}`;
+
+    try {
+      // 使用相对路径导入
+      const module = await import(
+        /* @vite-ignore */
+        new URL(normalizedPath, import.meta.url).pathname
+      );
+      return new module.default();
+    } catch (error) {
+      throw new Error(`Failed to load plugin from ${metadata.path}: ${error}`);
+    }
   }
 }

@@ -4,8 +4,31 @@ import vueJsx from "@vitejs/plugin-vue-jsx";
 import Components from "unplugin-vue-components/vite";
 import { AntDesignVueResolver } from "unplugin-vue-components/resolvers";
 import { fileURLToPath } from "url";
+import type { Config } from "tailwindcss";
+import postcssImport from "postcss-import";
+import postcssNesting from "postcss-nesting";
+import tailwindcss from "tailwindcss";
+import autoprefixer from "autoprefixer";
 
 const host = process.env.TAURI_DEV_HOST;
+
+// Tailwind 配置
+const tailwindConfig: Config = {
+  content: [
+    "./index.html",
+    "./src/**/*.{vue,js,ts,jsx,tsx}",
+    "../packages/plugin/src/**/*.{vue,js,ts,jsx,tsx}",
+    "../plugins/mysql/ui/src/**/*.{vue,js,ts,jsx,tsx}",
+  ],
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        primary: "var(--color-primary)",
+      },
+    },
+  },
+};
 
 // https://vitejs.dev/config/
 export default defineConfig(async () => ({
@@ -20,8 +43,16 @@ export default defineConfig(async () => ({
       ],
     }),
   ],
+
   css: {
-    postcss: "./postcss.config.js",
+    postcss: {
+      plugins: [
+        postcssImport(),
+        postcssNesting(),
+        tailwindcss(tailwindConfig),
+        autoprefixer(),
+      ],
+    },
     preprocessorOptions: {
       less: {
         javascriptEnabled: true,
