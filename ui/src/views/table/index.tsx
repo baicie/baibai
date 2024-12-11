@@ -1,7 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { Layout } from "antd";
-import DatabaseTree from "../../components/DatabaseTree";
 import ResultTable from "../../components/ResultTable";
 import { useDatabaseStore } from "../../stores/database";
 import { invoke } from "@tauri-apps/api/core";
@@ -41,9 +40,6 @@ const TableView: React.FC = () => {
 
   return (
     <Layout className="h-full">
-      <Sider width={250} className="bg-white">
-        <DatabaseTree />
-      </Sider>
       <Content className="p-4">
         <ResultTable loading={loading} result={result} />
       </Content>

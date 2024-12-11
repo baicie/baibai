@@ -4,15 +4,14 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-async-trait = "0.1"
-serde = { version = "1.0", features = ["derive"] }
-tokio = { version = "1.0", features = ["full"] }
-tauri = { version = "2.0.0-beta" }
-sqlx = { version = "0.7", features = ["mysql", "runtime-tokio"] }
-rust-i18n = "2"
+tauri.workspace = true
+serde.workspace = true
+tokio.workspace = true
+sqlx.workspace = true
+rust-i18n = "3.1.2"
 once_cell = "1.18"
-tauri-plugin-sql = { version = "2.0.0-beta", features = ["sqlite"] } 
+tauri-plugin-sql = { version = "2.2.0", features = ["sqlite"] } 
 
 [dev-dependencies]
 tokio = { version = "1.0", features = ["full", "test-util"] }
-env_logger = "0.10" 
+env_logger = "0.11.5" 

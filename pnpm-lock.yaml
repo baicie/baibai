@@ -220,7 +220,7 @@ importers:
         specifier: 24.1.0
         version: 24.1.0(typescript@5.6.3)
       monaco-editor:
-        specifier: 0.52.2
+        specifier: '^0.52.2 '
         version: 0.52.2
       react:
         specifier: 19.0.0
@@ -231,9 +231,6 @@ importers:
       react-i18next:
         specifier: 15.1.4
         version: 15.1.4(i18next@24.1.0(typescript@5.6.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      react-monaco-editor:
-        specifier: ^0.55.0
-        version: 0.55.0(@types/react@19.0.1)(monaco-editor@0.52.2)(react@19.0.0)
       react-router-dom:
         specifier: 7.0.2
         version: 7.0.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -4546,13 +4543,6 @@ packages:
 
   react-lifecycles-compat@3.0.4:
     resolution: {integrity: sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==}
-
-  react-monaco-editor@0.55.0:
-    resolution: {integrity: sha512-GdEP0Q3Rn1dczfKEEyY08Nes5plWwIYU4sWRBQO0+jsQWQsKMHKCC6+hPRwR7G/4aA3V/iU9jSmWPzVJYMVFSQ==}
-    peerDependencies:
-      '@types/react': '>=16 <= 18'
-      monaco-editor: ^0.44.0
-      react: '>=16 <= 18'
 
   react-router-dom@7.0.2:
     resolution: {integrity: sha512-VJOQ+CDWFDGaWdrG12Nl+d7yHtLaurNgAQZVgaIy7/Xd+DojgmYLosFfZdGz1wpxmjJIAkAMVTKWcvkx1oggAw==}
@@ -10875,13 +10865,6 @@ snapshots:
   react-is@18.3.1: {}
 
   react-lifecycles-compat@3.0.4: {}
-
-  react-monaco-editor@0.55.0(@types/react@19.0.1)(monaco-editor@0.52.2)(react@19.0.0):
-    dependencies:
-      '@types/react': 19.0.1
-      monaco-editor: 0.52.2
-      prop-types: 15.8.1
-      react: 19.0.0
 
   react-router-dom@7.0.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:

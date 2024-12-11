@@ -1,11 +1,10 @@
 import React from "react";
 import { Layout } from "antd";
 import SqlEditor from "@/components/SqlEditor";
-import DatabaseTree from "@/components/DatabaseTree";
 import ResultTable from "@/components/ResultTable";
 import type { QueryResult } from "@baibai/plugin-core";
 
-const { Sider, Content } = Layout;
+const { Content } = Layout;
 
 const QueryView: React.FC = () => {
   const [sql, setSql] = React.useState("");
@@ -28,9 +27,6 @@ const QueryView: React.FC = () => {
 
   return (
     <Layout className="h-full">
-      <Sider width={250} className="bg-white">
-        <DatabaseTree />
-      </Sider>
       <Content className="p-4">
         <SqlEditor value={sql} onChange={setSql} onExecute={handleExecute} />
         <div className="h-4" />

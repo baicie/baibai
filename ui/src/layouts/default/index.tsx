@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout, Space, Tabs } from "antd";
+import { Layout, Space, Tabs, type TabsProps } from "antd";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import ThemeSwitch from "@/components/ThemeSwitch";
@@ -49,9 +49,9 @@ const DefaultLayout: React.FC = () => {
   };
 
   // 关闭标签页
-  const handleTabEdit = (
-    targetKey: React.MouseEvent | string,
-    action: "add" | "remove"
+  const handleTabEdit: TabsProps["onEdit"] = (
+    targetKey,
+    action
   ) => {
     if (action === "remove" && typeof targetKey === "string") {
       const targetIndex = tabs.findIndex((tab) => tab.key === targetKey);

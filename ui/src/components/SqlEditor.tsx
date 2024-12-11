@@ -1,8 +1,8 @@
-import React from "react";
-import MonacoEditor from "react-monaco-editor";
+import React from "react"; 
 import { useThemeStore } from "@/stores/theme";
 import { Button, Space } from "antd";
 import { PlayCircleOutlined, FormatPainterOutlined } from "@ant-design/icons";
+import MonacoEditor from "./monaco-editor/editor";
 
 interface Props {
   value: string;
