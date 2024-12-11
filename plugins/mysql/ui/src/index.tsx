@@ -1,15 +1,13 @@
-import { defineComponent, ref, provide } from "vue";
+import { defineComponent, h } from "vue";
+import type { Component } from "vue";
+import { useContextProvider } from "@baibai/plugin-core";
 import type {
   Plugin,
   PluginContext,
   PluginComponents,
 } from "@baibai/plugin-core";
 import QueryEditor from "./components/QueryEditor";
-import DataViewer from "./components/DataViewer";
-import Settings from "./components/Settings";
-import { messages } from "./i18n";
-
-const PLUGIN_CONTEXT_KEY = Symbol("plugin-context");
+import manifest from "../../manifest.json";
 
 export class MySQLPluginUI implements Plugin {
   private context?: PluginContext;
@@ -21,31 +19,35 @@ export class MySQLPluginUI implements Plugin {
     this.context = context;
   }
 
-  async destroy() {
-    // 清理资源
-  }
-
   getComponents(): PluginComponents {
-    const WrappedComponent = (Component: any) =>
+    const context = this.context;
+    const plugin = this;
+    if (!context) {
+      throw new Error("Plugin not initialized");
+    }
+
+    const wrapComponent = (Component: Component) =>
       defineComponent({
         setup(props) {
-          // 提供插件上下文给子组件
-          provide(PLUGIN_CONTEXT_KEY, this.context);
-          return () => <Component {...props} />;
+          useContextProvider(plugin, context);
+          return () => h(Component, props);
         },
       });
 
     return {
-      editor: WrappedComponent(QueryEditor),
-      viewer: WrappedComponent(DataViewer),
-      settings: WrappedComponent(Settings),
+      editor: wrapComponent(QueryEditor),
     };
   }
 
-  // 提供插件的翻译资源
-  getMessages() {
-    return messages;
+  async destroy(): Promise<void> {
+    this.context = undefined;
+  }
+
+  static getManifest() {
+    return manifest;
   }
 }
 
 export default MySQLPluginUI;
+
+export type { MySQLPluginOptions } from "./types";

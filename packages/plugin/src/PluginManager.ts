@@ -14,9 +14,6 @@ export class PluginManager {
 
   // 注册内置插件
   public registerBuiltin(plugin: Plugin, metadata: PluginMetadata): void {
-    if (metadata.pluginType !== PluginType.Builtin) {
-      throw new Error("Only builtin plugins can be registered directly");
-    }
     this.builtinPlugins.set(plugin.name, plugin);
   }
 

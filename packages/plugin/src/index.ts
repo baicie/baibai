@@ -1,19 +1,5 @@
 import type { Component } from "vue";
-
-export interface PluginContext {
-  i18n: {
-    t: (key: string, params?: Record<string, any>) => string;
-    locale: string;
-  };
-  theme: {
-    isDark: boolean;
-    primaryColor: string;
-  };
-  settings: {
-    get: (key: string) => any;
-    set: (key: string, value: any) => void;
-  };
-}
+import { PluginContext } from "./types";
 
 export interface PluginComponents {
   editor?: Component;
@@ -58,8 +44,10 @@ export enum Capability {
   StoredProcedure = "stored_procedure",
 }
 
-// export type { Manifest } from "./schema/types";
-// export { validateManifest } from "./schema/validator";
-
 export * from "./types";
 export * from "./store";
+export * from "./PluginManager";
+export * from "./BasePlugin";
+export * from "./context";
+export { usePluginContext } from "./hooks/usePluginContext";
+export { useContextProvider } from "./hooks/useContextProvider";

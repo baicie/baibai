@@ -1,4 +1,5 @@
 import type { Component } from "vue";
+import { Button, Space, Input } from "ant-design-vue";
 
 export enum PluginType {
   Builtin = "builtin",
@@ -8,7 +9,6 @@ export enum PluginType {
 export interface PluginMetadata {
   name: string;
   version: string;
-  pluginType: PluginType;
   displayName: {
     "en-US": string;
     "zh-CN": string;
@@ -35,6 +35,12 @@ export interface PluginError extends Error {
   details?: any;
 }
 
+export interface UIComponents {
+  Button: typeof Button;
+  Space: typeof Space;
+  Input: typeof Input;
+}
+
 export interface PluginContext {
   i18n: {
     t: (key: string, params?: Record<string, any>) => string;
@@ -43,11 +49,15 @@ export interface PluginContext {
   theme: {
     isDark: boolean;
     primaryColor: string;
+    token?: {
+      colorPrimary: string;
+    };
   };
   settings: {
     get: (key: string) => any;
     set: (key: string, value: any) => void;
   };
+  components: UIComponents;
 }
 
 export interface PluginComponents {
