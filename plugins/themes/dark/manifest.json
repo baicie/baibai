@@ -1,0 +1,15 @@
+{
+  "name": "dark-theme",
+  "version": "1.0.0",
+  "pluginType": "builtin",
+  "displayName": {
+    "en-US": "Dark Theme",
+    "zh-CN": "暗色主题"
+  },
+  "description": {
+    "en-US": "Default dark theme",
+    "zh-CN": "默认暗色主题"
+  },
+  "author": "baibai",
+  "capabilities": ["theme"]
+}

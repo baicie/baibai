@@ -6,9 +6,25 @@ export enum PluginType {
   External = "external",
 }
 
+export enum PluginKind {
+  Language = "language",
+  Theme = "theme",
+  Database = "database",
+  Editor = "editor", // 编辑器插件(如 Monaco 配置、语法高亮等)
+  Formatter = "formatter", // SQL 格式化插件
+  Exporter = "exporter", // 数据导出插件(CSV、Excel等)
+  Importer = "importer", // 数据导入插件
+  Chart = "chart", // 图表可视化插件
+  Backup = "backup", // 备份插件
+  Migration = "migration", // 数据迁移插件
+  Monitor = "monitor", // 性能监控插件
+  Security = "security", // 安全审计插件
+}
+
 export interface PluginMetadata {
   name: string;
   version: string;
+  kind: PluginKind; // 插件类型
   displayName: {
     "en-US": string;
     "zh-CN": string;

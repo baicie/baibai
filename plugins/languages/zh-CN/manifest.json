@@ -1,0 +1,15 @@
+{
+  "name": "zh-CN",
+  "version": "1.0.0",
+  "pluginType": "builtin",
+  "displayName": {
+    "en-US": "Simplified Chinese",
+    "zh-CN": "简体中文"
+  },
+  "description": {
+    "en-US": "Simplified Chinese language pack",
+    "zh-CN": "简体中文语言包"
+  },
+  "author": "baibai",
+  "capabilities": ["language"]
+}

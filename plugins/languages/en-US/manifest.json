@@ -1,0 +1,15 @@
+{
+  "name": "en-US",
+  "version": "1.0.0",
+  "pluginType": "builtin",
+  "displayName": {
+    "en-US": "English (US)",
+    "zh-CN": "英语(美国)"
+  },
+  "description": {
+    "en-US": "English (US) language pack",
+    "zh-CN": "英语(美国)语言包"
+  },
+  "author": "baibai",
+  "capabilities": ["language"]
+}

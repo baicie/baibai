@@ -1,0 +1,15 @@
+{
+  "name": "blue-theme",
+  "version": "1.0.0",
+  "pluginType": "builtin",
+  "displayName": {
+    "en-US": "Deep Blue Theme",
+    "zh-CN": "深蓝主题"
+  },
+  "description": {
+    "en-US": "A deep blue theme",
+    "zh-CN": "深蓝色主题"
+  },
+  "author": "baibai",
+  "capabilities": ["theme"]
+}
