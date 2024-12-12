@@ -1,4 +1,4 @@
-import { Plugin, PluginType, PluginMetadata, PluginContext } from "./types";
+import { Plugin, PluginMetadata, PluginContext, PluginKind } from "./types";
 import { DefaultPluginStore } from "./store";
 
 export class PluginManager {
@@ -73,5 +73,13 @@ export class PluginManager {
     } catch (error) {
       throw new Error(`Failed to load plugin from ${metadata.path}: ${error}`);
     }
+  }
+
+  public getPluginsByKind(kind: PluginKind): Plugin[] {
+    const allPlugins = [
+      ...this.plugins.values(),
+      ...this.builtinPlugins.values(),
+    ];
+    return allPlugins.filter((plugin) => plugin.kind === kind);
   }
 }

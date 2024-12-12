@@ -1,28 +1,24 @@
-import type { Plugin, PluginContext } from "@baibai/plugin-core";
+import type {
+  Plugin,
+  PluginContext,
+  PluginKind,
+  PluginMetadata,
+} from "@baibai/plugin-core";
 import theme from "./theme";
 import manifest from "../../manifest.json";
 
 export class BlueThemePlugin implements Plugin {
   name = manifest.name;
   version = manifest.version;
+  kind = manifest.kind as PluginKind;
 
   async init(context: PluginContext) {
-    // 注册主题
-    context.settings.set("themes.blue", {
-      token: {
-        colorPrimary: "#1e40af", // 深蓝色
-        borderRadius: 4,
-      },
-    });
+    context.settings.set("themes.blue", theme);
   }
 
-  async destroy() {
-    // 清理工作
+  getManifest(): PluginMetadata {
+    return manifest as PluginMetadata;
   }
 
-  getComponents() {
-    return {};
-  }
+  async destroy() {}
 }
-
-export default BlueThemePlugin;

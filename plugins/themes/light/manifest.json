@@ -1,15 +1,22 @@
 {
   "name": "light-theme",
   "version": "1.0.0",
+  "kind": "theme",
   "pluginType": "builtin",
   "displayName": {
     "en-US": "Light Theme",
     "zh-CN": "亮色主题"
   },
   "description": {
-    "en-US": "Default light theme",
-    "zh-CN": "默认亮色主题"
+    "en-US": "Default light theme with clean and modern design",
+    "zh-CN": "默认亮色主题，提供清新现代的设计风格"
   },
   "author": "baibai",
-  "capabilities": ["theme"]
+  "capabilities": ["theme"],
+  "preferences": {
+    "colorPrimary": "#1890ff",
+    "borderRadius": 4,
+    "colorBgBase": "#ffffff",
+    "colorTextBase": "rgba(0, 0, 0, 0.85)"
+  }
 }

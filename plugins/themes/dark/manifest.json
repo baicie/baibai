@@ -1,15 +1,22 @@
 {
   "name": "dark-theme",
   "version": "1.0.0",
+  "kind": "theme",
   "pluginType": "builtin",
   "displayName": {
     "en-US": "Dark Theme",
     "zh-CN": "暗色主题"
   },
   "description": {
-    "en-US": "Default dark theme",
-    "zh-CN": "默认暗色主题"
+    "en-US": "Default dark theme with better contrast and eye protection",
+    "zh-CN": "默认暗色主题，提供更好的对比度和护眼效果"
   },
   "author": "baibai",
-  "capabilities": ["theme"]
+  "capabilities": ["theme"],
+  "preferences": {
+    "colorPrimary": "#177ddc",
+    "borderRadius": 4,
+    "colorBgBase": "#141414",
+    "colorTextBase": "rgba(255, 255, 255, 0.85)"
+  }
 }

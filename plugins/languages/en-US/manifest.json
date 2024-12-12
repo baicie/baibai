@@ -1,6 +1,7 @@
 {
   "name": "en-US",
   "version": "1.0.0",
+  "kind": "language",
   "pluginType": "builtin",
   "displayName": {
     "en-US": "English (US)",

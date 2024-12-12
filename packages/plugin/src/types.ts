@@ -75,9 +75,11 @@ export interface PluginComponents {
 export interface Plugin {
   name: string;
   version: string;
+  kind: PluginKind;
   init: (context: PluginContext) => Promise<void>;
   destroy: () => Promise<void>;
-  getComponents: () => PluginComponents;
+  getComponents?: () => PluginComponents;
+  getManifest: () => PluginMetadata;
 }
 
 export interface PluginError extends Error {
@@ -88,4 +90,33 @@ export interface PluginError extends Error {
 export interface PluginInstallOptions {
   force?: boolean;
   skipVerification?: boolean;
+}
+
+export interface DatabasePlugin extends Plugin {
+  connect: (config: ConnectionConfig) => Promise<void>;
+  disconnect: () => Promise<void>;
+  query: (sql: string) => Promise<QueryResult>;
+  execute: (sql: string) => Promise<QueryResult>;
+  getCapabilities: () => Capability[];
+}
+
+export interface ConnectionConfig {
+  host: string;
+  port: number;
+  username: string;
+  password: string;
+  database?: string;
+}
+
+export interface QueryResult {
+  columns: string[];
+  rows: any[][];
+  affectedRows: number;
+}
+
+export enum Capability {
+  Transaction = "transaction",
+  PreparedStatement = "prepared_statement",
+  BatchOperation = "batch_operation",
+  StoredProcedure = "stored_procedure",
 }

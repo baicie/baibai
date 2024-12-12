@@ -1,15 +1,22 @@
 {
   "name": "blue-theme",
   "version": "1.0.0",
+  "kind": "theme",
   "pluginType": "builtin",
   "displayName": {
     "en-US": "Deep Blue Theme",
     "zh-CN": "深蓝主题"
   },
   "description": {
-    "en-US": "A deep blue theme",
-    "zh-CN": "深蓝色主题"
+    "en-US": "A professional deep blue theme with high contrast",
+    "zh-CN": "专业的深蓝主题，提供更高的对比度"
   },
   "author": "baibai",
-  "capabilities": ["theme"]
+  "capabilities": ["theme"],
+  "preferences": {
+    "colorPrimary": "#1e40af",
+    "borderRadius": 4,
+    "colorBgBase": "#ffffff",
+    "colorTextBase": "rgba(0, 0, 0, 0.85)"
+  }
 }

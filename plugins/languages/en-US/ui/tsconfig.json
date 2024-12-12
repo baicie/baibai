@@ -1,11 +1,11 @@
 {
   "extends": "../../../../tsconfig.base.json",
   "compilerOptions": {
-    "noEmit": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     }
   },
-  "include": ["src/**/*", "src/**/*.vue", "src/**/*.tsx", "src/**/*.d.ts"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

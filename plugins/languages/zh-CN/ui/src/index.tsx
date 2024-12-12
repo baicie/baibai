@@ -1,10 +1,16 @@
-import type { Plugin, PluginContext } from "@baibai/plugin-core";
+import type {
+  Plugin,
+  PluginContext,
+  PluginKind,
+  PluginMetadata,
+} from "@baibai/plugin-core";
 import translations from "./translations";
 import manifest from "../../manifest.json";
 
 export class ZhCNLanguagePlugin implements Plugin {
   name = manifest.name;
   version = manifest.version;
+  kind = manifest.kind as PluginKind;
 
   async init(context: PluginContext) {
     // 注册语言包
@@ -15,9 +21,7 @@ export class ZhCNLanguagePlugin implements Plugin {
     // 清理工作
   }
 
-  getComponents() {
-    return {};
+  getManifest(): PluginMetadata {
+    return manifest as PluginMetadata;
   }
 }
-
-export default ZhCNLanguagePlugin;

@@ -1,29 +1,27 @@
-import React from "react";
-import { ConfigProvider, theme } from "antd";
+import React, { useEffect } from "react";
+import { ConfigProvider } from "antd";
+import { useThemeStore } from "./stores/theme";
+import { useI18nStore } from "./stores/i18n";
+import { usePlugins } from "./plugins";
 import { I18nextProvider } from "react-i18next";
 import { RouterProvider } from "react-router-dom";
-import { useThemeStore } from "./stores/theme";
-import zhCN from "antd/locale/zh_CN";
-import enUS from "antd/locale/en_US";
-import { router } from "./router";
 import i18n from "./i18n";
+import { router } from "./router";
 
 const App: React.FC = () => {
-  const isDark = useThemeStore((state) => state.isDark);
+  const { currentTheme, themes, loadThemes } = useThemeStore();
+  const { currentLocale, loadLocales } = useI18nStore();
+  const { pluginManager } = usePlugins();
 
-  const themeConfig = {
-    algorithm: isDark ? theme.darkAlgorithm : theme.defaultAlgorithm,
-    token: {
-      borderRadius: 4,
-      colorPrimary: "#1890ff",
-    },
-  };
+  useEffect(() => {
+    if (pluginManager) {
+      loadThemes(pluginManager);
+      loadLocales(pluginManager);
+    }
+  }, [pluginManager]);
 
   return (
-    <ConfigProvider
-      theme={themeConfig}
-      locale={i18n.language === "zh-CN" ? zhCN : enUS}
-    >
+    <ConfigProvider theme={themes[currentTheme]}>
       <I18nextProvider i18n={i18n}>
         <RouterProvider router={router}></RouterProvider>
       </I18nextProvider>

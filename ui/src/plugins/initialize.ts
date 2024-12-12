@@ -8,32 +8,32 @@ import { PluginManager } from "@baibai/plugin-core";
 
 export async function initializePlugins(pluginManager: PluginManager) {
   // 注册内置插件
-  pluginManager.registerBuiltin(
-    new MySQLPluginUI(),
-    MySQLPluginUI.getManifest()
-  );
+  const mysqlPluginUI = new MySQLPluginUI();
+  pluginManager.registerBuiltin(mysqlPluginUI, mysqlPluginUI.getManifest());
 
   // 注册语言插件
+  const zhCNLanguagePlugin = new ZhCNLanguagePlugin();
   pluginManager.registerBuiltin(
-    new ZhCNLanguagePlugin(),
-    ZhCNLanguagePlugin.getManifest()
+    zhCNLanguagePlugin,
+    zhCNLanguagePlugin.getManifest()
   );
+
+  const enUSLanguagePlugin = new EnUSLanguagePlugin();
   pluginManager.registerBuiltin(
-    new EnUSLanguagePlugin(),
-    EnUSLanguagePlugin.getManifest()
+    enUSLanguagePlugin,
+    enUSLanguagePlugin.getManifest()
   );
 
   // 注册主题插件
+  const lightThemePlugin = new LightThemePlugin();
   pluginManager.registerBuiltin(
-    new LightThemePlugin(),
-    LightThemePlugin.getManifest()
+    lightThemePlugin,
+    lightThemePlugin.getManifest()
   );
-  pluginManager.registerBuiltin(
-    new DarkThemePlugin(),
-    DarkThemePlugin.getManifest()
-  );
-  pluginManager.registerBuiltin(
-    new BlueThemePlugin(),
-    BlueThemePlugin.getManifest()
-  );
+
+  const darkThemePlugin = new DarkThemePlugin();
+  pluginManager.registerBuiltin(darkThemePlugin, darkThemePlugin.getManifest());
+
+  const blueThemePlugin = new BlueThemePlugin();
+  pluginManager.registerBuiltin(blueThemePlugin, blueThemePlugin.getManifest());
 }

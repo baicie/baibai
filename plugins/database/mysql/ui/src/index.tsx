@@ -1,46 +1,23 @@
 import type {
   Plugin,
   PluginContext,
-  PluginComponents,
+  PluginKind,
+  PluginMetadata,
 } from "@baibai/plugin-core";
-import { PluginContextProvider } from "@baibai/plugin-core";
-import QueryEditor from "./components/QueryEditor";
 import manifest from "../../manifest.json";
 
 export class MySQLPluginUI implements Plugin {
-  private context?: PluginContext;
+  name = manifest.name;
+  version = manifest.version;
+  kind = manifest.kind as PluginKind;
 
-  name = "mysql";
-  version = "1.0.0";
-
-  async init(context: PluginContext) {
-    this.context = context;
+  async init(_: PluginContext) {
+    // 初始化插件
   }
 
-  getComponents(): PluginComponents {
-    const context = this.context;
-    if (!context) {
-      throw new Error("Plugin not initialized");
-    }
+  async destroy() {}
 
-    return {
-      editor: () => (
-        <PluginContextProvider value={context}>
-          <QueryEditor />
-        </PluginContextProvider>
-      ),
-    };
-  }
-
-  async destroy(): Promise<void> {
-    this.context = undefined;
-  }
-
-  static getManifest() {
-    return manifest;
+  getManifest(): PluginMetadata {
+    return manifest as PluginMetadata;
   }
 }
-
-export default MySQLPluginUI;
-
-export type { MySQLPluginOptions } from "./types";

@@ -1,6 +1,7 @@
 {
   "name": "zh-CN",
   "version": "1.0.0",
+  "kind": "language",
   "pluginType": "builtin",
   "displayName": {
     "en-US": "Simplified Chinese",
