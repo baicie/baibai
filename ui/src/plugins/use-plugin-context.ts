@@ -1,16 +1,16 @@
-import { useI18n } from "vue-i18n";
-import { useThemeStore } from "../stores/theme";
 import type { PluginContext } from "@baibai/plugin-core";
-import { Button, Space, Input } from "ant-design-vue";
+import { useThemeStore } from "@/stores/theme";
+import { Button, Space, Input } from "antd";
+import { useTranslation } from "react-i18next";
 
 export function createPluginContext(): PluginContext {
-  const { t, locale } = useI18n();
+  const { t, i18n } = useTranslation();
   const themeStore = useThemeStore();
 
   return {
     i18n: {
       t,
-      locale: locale.value,
+      locale: i18n.language,
     },
     theme: {
       isDark: themeStore.isDark,

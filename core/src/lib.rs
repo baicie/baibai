@@ -1,11 +1,12 @@
+mod storage;
+use crate::storage::{DbConnection, Storage};
 use async_trait::async_trait;
-use serde::{Deserialize, Serialize};
-use std::error::Error;
-use sqlx::{mysql::MySqlPoolOptions, Error as SqlxError, MySqlPool};
 use once_cell::sync::Lazy;
 use rust_i18n::t;
+use serde::{Deserialize, Serialize};
+use sqlx::mysql::MySqlPoolOptions;
+use std::error::Error;
 use std::sync::Mutex;
-use crate::storage::{DbConnection, Storage};
 use tauri::State;
 
 pub type DbResult<T> = Result<T, Box<dyn Error + Send + Sync>>;
@@ -34,7 +35,7 @@ pub trait DatabaseDriver: Send + Sync {
     async fn disconnect(&mut self) -> DbResult<()>;
     async fn execute(&self, sql: &str) -> DbResult<QueryResult>;
     async fn query(&self, sql: &str) -> DbResult<QueryResult>;
-} 
+}
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct DatabaseConfig {
@@ -68,16 +69,16 @@ rust_i18n::i18n!("locales");
 static LOCALE: Lazy<Mutex<String>> = Lazy::new(|| Mutex::new("zh-CN".to_string()));
 
 // 设置当前语言
-#[tauri::command]
-pub fn set_locale(locale: String) {
+#[tauri::command(rename_all = "snake_case")]
+pub fn core_set_locale(locale: String) {
     let mut current = LOCALE.lock().unwrap();
     *current = locale;
     rust_i18n::set_locale(&current);
 }
 
 // 获取当前语言
-#[tauri::command]
-pub fn get_locale() -> String {
+#[tauri::command(rename_all = "snake_case")]
+pub fn core_get_locale() -> String {
     LOCALE.lock().unwrap().clone()
 }
 
@@ -114,10 +115,7 @@ pub async fn list_databases(config: DatabaseConfig) -> Result<Vec<String>, Strin
         .await
         .map_err(|e| t!("database.list.failed", error = e.to_string()))?;
 
-    let databases: Vec<String> = rows
-        .iter()
-        .map(|row| row.get::<String, _>(0))
-        .collect();
+    let databases: Vec<String> = rows.iter().map(|row| row.get::<String, _>(0)).collect();
 
     if databases.is_empty() {
         return Err(t!("database.list.empty"));
@@ -128,7 +126,10 @@ pub async fn list_databases(config: DatabaseConfig) -> Result<Vec<String>, Strin
 
 #[tauri::command]
 pub async fn list_tables(config: DatabaseConfig) -> Result<Vec<TableInfo>, String> {
-    let database = config.database.as_deref().ok_or_else(|| t!("database.tables.no_database"))?;
+    let database = config
+        .database
+        .as_deref()
+        .ok_or_else(|| t!("database.tables.no_database"))?;
     let pool = MySqlPoolOptions::new()
         .max_connections(1)
         .connect(&config.to_url())
@@ -232,7 +233,7 @@ pub async fn get_table_columns(
             comment: row.get(6),
         })
         .collect())
-} 
+}
 
 // 全局存储实例
 pub struct StorageState(pub Mutex<Storage>);
@@ -269,4 +270,4 @@ pub async fn update_connection(
 pub async fn delete_connection(state: State<'_, StorageState>, id: i64) -> Result<(), String> {
     let storage = state.0.lock().unwrap();
     storage.delete_connection(id).map_err(|e| e.to_string())
-} 
+}

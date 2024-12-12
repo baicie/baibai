@@ -1,30 +1,50 @@
-import { defineComponent, ref } from "vue";
-import { Tabs } from "ant-design-vue";
-import TableStructure from "./components/TableStructure";
-import TableData from "./components/TableData";
-import TableER from "./components/TableER";
+import React from "react";
+import { useParams } from "react-router-dom";
+import { Layout } from "antd";
+import ResultTable from "../../components/ResultTable";
+import { useDatabaseStore } from "../../stores/database";
+import { invoke } from "@tauri-apps/api/core";
+import type { QueryResult } from "@baibai/plugin-core";
 
-const { TabPane } = Tabs;
+const { Sider, Content } = Layout;
 
-export default defineComponent({
-  name: "TableDetail",
-  setup() {
-    const activeTab = ref("structure");
+const TableView: React.FC = () => {
+  const { database, table } = useParams<{ database: string; table: string }>();
+  const [loading, setLoading] = React.useState(false);
+  const [result, setResult] = React.useState<QueryResult>();
+  const currentConnection = useDatabaseStore(
+    (state) => state.currentConnection
+  );
 
-    return () => (
-      <div class="table-detail">
-        <Tabs v-model:activeKey={activeTab.value}>
-          <TabPane key="structure" tab="结构">
-            <TableStructure />
-          </TabPane>
-          <TabPane key="data" tab="数据">
-            <TableData />
-          </TabPane>
-          <TabPane key="er" tab="ER图">
-            <TableER />
-          </TabPane>
-        </Tabs>
-      </div>
-    );
-  },
-});
+  React.useEffect(() => {
+    if (!currentConnection || !database || !table) return;
+
+    const loadTableData = async () => {
+      setLoading(true);
+      try {
+        const sql = `SELECT * FROM ${database}.${table} LIMIT 100`;
+        const result = await invoke<QueryResult>("execute_query", {
+          connectionId: currentConnection.id,
+          sql,
+        });
+        setResult(result);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadTableData();
+  }, [currentConnection, database, table]);
+
+  return (
+    <Layout className="h-full">
+      <Content className="p-4">
+        <ResultTable loading={loading} result={result} />
+      </Content>
+    </Layout>
+  );
+};
+
+export default TableView;

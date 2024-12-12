@@ -1,59 +1,42 @@
-import { defineComponent, onMounted, ref } from "vue";
+import React, { useEffect, useRef } from "react";
 import G6 from "@antv/g6";
 
-export default defineComponent({
-  name: "TableER",
-  setup() {
-    const container = ref<HTMLDivElement>();
-    const graph = ref<any>(null);
+const TableER: React.FC = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const graphRef = useRef<any>(null);
 
-    onMounted(() => {
-      if (!container.value) return;
+  useEffect(() => {
+    if (!containerRef.current) return;
 
-      graph.value = new G6.Graph({
-        container: container.value,
-        width: container.value.offsetWidth,
-        height: 500,
-        layout: {
-          type: "dagre",
-          rankdir: "LR",
-          nodesep: 50,
-          ranksep: 70,
-        },
-      });
-
-      const data = {
-        nodes: [
-          {
-            id: "users",
-            label: "users",
-            type: "table-node",
-            columns: ["id", "username"],
-          },
-          {
-            id: "orders",
-            label: "orders",
-            type: "table-node",
-            columns: ["id", "user_id", "amount"],
-          },
-        ],
-        edges: [
-          {
-            source: "orders",
-            target: "users",
-            label: "user_id -> id",
-          },
-        ],
-      };
-
-      graph.value.data(data);
-      graph.value.render();
+    graphRef.current = new G6.Graph({
+      container: containerRef.current,
+      width: containerRef.current.offsetWidth,
+      height: containerRef.current.offsetHeight,
+      layout: {
+        type: "force",
+        preventOverlap: true,
+        linkDistance: 100,
+      },
     });
 
-    return () => (
-      <div class="table-er">
-        <div ref={container} class="er-container" />
-      </div>
-    );
-  },
-});
+    const data = {
+      nodes: [],
+      edges: [],
+    };
+
+    graphRef.current.data(data);
+    graphRef.current.render();
+
+    return () => {
+      graphRef.current?.destroy();
+    };
+  }, []);
+
+  return (
+    <div className="table-er h-full">
+      <div ref={containerRef} className="h-full" />
+    </div>
+  );
+};
+
+export default TableER;

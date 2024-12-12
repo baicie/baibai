@@ -1,11 +1,6 @@
-import type { Component } from "vue";
-import { PluginContext } from "./types";
-
-export interface PluginComponents {
-  editor?: Component;
-  viewer?: Component;
-  settings?: Component;
-}
+import { Component } from "react";
+import { PluginComponents, PluginContext } from "./types";
+import { PluginManager } from "./PluginManager";
 
 export interface Plugin {
   name: string;
@@ -46,8 +41,5 @@ export enum Capability {
 
 export * from "./types";
 export * from "./store";
-export * from "./PluginManager";
-export * from "./BasePlugin";
-export * from "./context";
-export { usePluginContext } from "./hooks/usePluginContext";
-export { useContextProvider } from "./hooks/useContextProvider";
+export * from "./hooks/usePluginContext";
+export { PluginManager };

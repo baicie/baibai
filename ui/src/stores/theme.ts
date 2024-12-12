@@ -1,34 +1,32 @@
-import { defineStore } from "pinia";
-import { ref, watch } from "vue";
-import { theme } from "ant-design-vue";
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
-export const useThemeStore = defineStore("theme", () => {
-  const isDark = ref(false);
+interface ThemeState {
+  isDark: boolean;
+  toggleTheme: () => void;
+}
 
-  // 监听系统主题变化
-  const darkMedia = window.matchMedia("(prefers-color-scheme: dark)");
-  isDark.value = darkMedia.matches;
-  darkMedia.addEventListener("change", (e) => {
-    isDark.value = e.matches;
+export const useThemeStore = create<ThemeState>()(
+  persist(
+    (set) => ({
+      isDark: window.matchMedia("(prefers-color-scheme: dark)").matches,
+      toggleTheme: () =>
+        set((state) => {
+          const newIsDark = !state.isDark;
+          document.documentElement.classList.toggle("dark", newIsDark);
+          return { isDark: newIsDark };
+        }),
+    }),
+    {
+      name: "theme-storage",
+    }
+  )
+);
+
+// 监听系统主题变化
+window
+  .matchMedia("(prefers-color-scheme: dark)")
+  .addEventListener("change", (e) => {
+    useThemeStore.setState({ isDark: e.matches });
+    document.documentElement.classList.toggle("dark", e.matches);
   });
-
-  // 切换主题
-  const toggleTheme = () => {
-    isDark.value = !isDark.value;
-    document.documentElement.classList.toggle("dark", isDark.value);
-  };
-
-  // 初始化主题
-  watch(
-    isDark,
-    (val) => {
-      document.documentElement.classList.toggle("dark", val);
-    },
-    { immediate: true }
-  );
-
-  return {
-    isDark,
-    toggleTheme,
-  };
-});
